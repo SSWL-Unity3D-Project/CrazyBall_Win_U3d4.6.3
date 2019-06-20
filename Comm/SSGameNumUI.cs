@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 游戏中UI数字信息控制组件.
@@ -10,13 +10,13 @@ public class SSGameNumUI : SSGameMono
     public class FixedUiPosData
     {
         /// <summary>
-        /// 是否修改UI信息的x轴坐标.
-        /// </summary>
-        public bool IsFixPosX = false;
-        /// <summary>
         /// 数字UI精灵组件的父级.
         /// </summary>
         public Transform UISpriteParent;
+        /// <summary>
+        /// 是否修改UI信息的x轴坐标.
+        /// </summary>
+        public bool IsFixPosX = false;
         /// <summary>
         /// UI坐标x轴偏移量.
         /// m_PosXArray[0]   --- 最小数据的x轴坐标.
@@ -28,22 +28,60 @@ public class SSGameNumUI : SSGameMono
     /// 修改UI坐标数据信息.
     /// </summary>
     public FixedUiPosData m_FixedUiPosDt;
-    /// <summary>
-    /// 数字UI是否为从高位到低位填充.
-    /// 默认值为从高位到低位填充.
-    /// 如果IsUIGaoToDiWei==false则需要动态将其数字UI进行翻转.
-    /// </summary>
-    public bool IsUIGaoToDiWei = true;
-    /// <summary>
-    /// 数字UI精灵组件.
-    /// m_UISpriteArray[0]   - 最高位.
-    /// m_UISpriteArray[max] - 最低位.
-    /// </summary>
-    //public UISprite[] m_UISpriteArray;
+    [System.Serializable]
+    public class NumImageData
+    {
+        /// <summary>
+        /// 数字UI精灵组件.
+        /// m_NumUIArray[0]   - 最低位.
+        /// m_NumUIArray[max] - 最高位.
+        /// </summary>
+        public Image[] m_NumUIArray;
+        /// <summary>
+        /// 数字图集,m_SpritArray[0] 数字0,m_SpritArray[9] 数字9
+        /// </summary>
+        public Sprite[] m_SpritArray = new Sprite[10];
+
+        public void ShowNum(int indexNum, int num)
+        {
+            if (indexNum < 0 || indexNum >= m_NumUIArray.Length)
+            {
+                return;
+            }
+
+            if (num < 0 || num >= m_SpritArray.Length)
+            {
+                return;
+            }
+
+            if (m_NumUIArray[indexNum] != null && m_SpritArray[num] != null)
+            {
+                if (m_NumUIArray[indexNum].gameObject.activeInHierarchy == false)
+                {
+                    m_NumUIArray[indexNum].gameObject.SetActive(true);
+                }
+                m_NumUIArray[indexNum].sprite = m_SpritArray[num];
+            }
+        }
+
+        public void HiddeNum(int indexNum)
+        {
+            if (indexNum < 0 || indexNum >= m_NumUIArray.Length)
+            {
+                return;
+            }
+
+            if (m_NumUIArray[indexNum] != null)
+            {
+                m_NumUIArray[indexNum].gameObject.SetActive(false);
+            }
+        }
+    }
+    public NumImageData m_NumImageData;
     /// <summary>
     /// 是否隐藏高位数字的0.
     /// </summary>
-    public bool IsHiddenGaoWeiNumZero = true;
+    public bool IsHiddenGaoWeiZero = true;
     bool IsInit = false;
     /// <summary>
     /// 初始化.
@@ -55,28 +93,31 @@ public class SSGameNumUI : SSGameMono
             return;
         }
         IsInit = true;
-
-        if (IsUIGaoToDiWei == false)
-        {
-            //如果IsUIGaoToDiWei==false则需要动态将其数字UI进行翻转.
-            //List<UISprite> listUI = new List<UISprite>(m_UISpriteArray);
-            //listUI.Reverse();
-            //m_UISpriteArray = listUI.ToArray();
-        }
     }
 
     /// <summary>
     /// 显示UI数量信息.
     /// </summary>
-    internal void ShowNumUI(int num, string numHead = "")
+    internal void ShowNumUI(int num)
     {
         if (IsInit == false)
         {
             Init();
         }
 
+        if (num < 0)
+        {
+            return;
+        }
+
         string numStr = num.ToString();
-        if (m_FixedUiPosDt != null && m_FixedUiPosDt.IsFixPosX)
+        if (numStr.Length > m_NumImageData.m_NumUIArray.Length)
+        {
+            num = (int)Mathf.Pow(10, m_NumImageData.m_NumUIArray.Length) - 1;
+            numStr = num.ToString();
+        }
+
+        if (m_FixedUiPosDt != null && m_FixedUiPosDt.IsFixPosX == true)
         {
             if (m_FixedUiPosDt.UISpriteParent != null)
             {
@@ -90,26 +131,24 @@ public class SSGameNumUI : SSGameMono
                 }
             }
         }
-
-        //int max = m_UISpriteArray.Length;
-        int max = 0;
+        
+        int max = m_NumImageData.m_NumUIArray.Length;
         int numVal = num;
         int valTmp = 0;
         int powVal = 0;
-        for (int i = 0; i < max; i++)
+        for (int i = max - 1; i >= 0; i--)
         {
-            if (max - i > numStr.Length && IsHiddenGaoWeiNumZero)
+            if (i >= numStr.Length && IsHiddenGaoWeiZero)
             {
                 //隐藏数据高位的0.
-                //m_UISpriteArray[i].enabled = false;
+                m_NumImageData.HiddeNum(i);
             }
             else
             {
-                //m_UISpriteArray[i].enabled = true;
-                powVal = (int)Mathf.Pow(10, max - i - 1);
+                powVal = (int)Mathf.Pow(10, i);
                 valTmp = numVal / powVal;
-                //UnityLog("ShowNumUI -> valTmp ====== " + valTmp);
-                //m_UISpriteArray[i].spriteName = numHead + valTmp.ToString();
+                SSDebug.Log("ShowNumUI -> valTmp ====== " + valTmp);
+                m_NumImageData.ShowNum(i, valTmp);
                 numVal -= valTmp * powVal;
             }
         }

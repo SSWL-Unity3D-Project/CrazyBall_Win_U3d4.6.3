@@ -15,11 +15,12 @@ public class SSOutOfBounds : MonoBehaviour
             return;
         }
 
-        //创建开始发球界面
-        if (SSGameMange.GetInstance() != null && SSGameMange.GetInstance().m_SSGameUI != null)
+        if (SSGameMange.GetInstance() == null || SSGameMange.GetInstance().m_SSGameUI == null)
         {
-            SSGameMange.GetInstance().m_SSGameUI.CreateStartFireBall(IndexPlayer);
+            return;
         }
+        //创建开始发球界面
+        SSGameMange.GetInstance().m_SSGameUI.CreateStartFireBall(IndexPlayer);
 
         //玩家没有接上曲棍球
         //把曲棍球初始化到玩家的球拍处
@@ -27,6 +28,27 @@ public class SSOutOfBounds : MonoBehaviour
         if (ball)
         {
             ball.SetBallPosition(IndexPlayer);
+        }
+
+        SSGlobalData.PlayerEnum indexJiaFenPlayer = SSGlobalData.PlayerEnum.Null;
+        switch (IndexPlayer)
+        {
+            case SSGlobalData.PlayerEnum.PlayerOne:
+                {
+                    indexJiaFenPlayer = SSGlobalData.PlayerEnum.PlayerTwo;
+                    break;
+                }
+            case SSGlobalData.PlayerEnum.PlayerTwo:
+                {
+                    indexJiaFenPlayer = SSGlobalData.PlayerEnum.PlayerOne;
+                    break;
+                }
+        }
+
+        if (indexJiaFenPlayer != SSGlobalData.PlayerEnum.Null)
+        {
+            //创建加分UI界面
+            SSGameMange.GetInstance().m_SSGameUI.CreateJiaFenUI(indexJiaFenPlayer);
         }
     }
 }

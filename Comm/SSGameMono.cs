@@ -25,4 +25,17 @@ public class SSGameMono : MonoBehaviour
         }
         return obj;
     }
+
+    bool IsRemoveSelf = false;
+    /// <summary>
+    /// 销毁自己
+    /// </summary>
+    public void RemoveSelf()
+    {
+        if (IsRemoveSelf == false)
+        {
+            IsRemoveSelf = true;
+            Destroy(gameObject);
+        }
+    }
 }

@@ -10,6 +10,10 @@ public class SSGameUI : SSGameMono
         /// </summary>
         public Transform PanelCenterTr;
         /// <summary>
+        /// 玩家的曲棍球进入对方后所得分数
+        /// </summary>
+        public int JiaFenVal = 10;
+        /// <summary>
         /// 等待对方开始游戏UI管理
         /// </summary>
         SSDengDaiDuiFang m_SSDengDaiDuiFang;
@@ -23,7 +27,7 @@ public class SSGameUI : SSGameMono
             }
         }
 
-        bool[] IsClickStartBtArray = new bool[2];
+        bool[] IsClickStartBtArray = new bool[SSGlobalData.MAX_PLAYER];
         internal void SetIsClickStartBt(SSGlobalData.PlayerEnum indexPlayer, bool isClick)
         {
             if (_IsGameStart == true)
@@ -171,6 +175,7 @@ public class SSGameUI : SSGameMono
     internal void RemoveStartGameGo()
     {
         IsCreateStartGameGo = false;
+        CreatePlayerFenShuUI();
     }
 
     /// <summary>
@@ -231,7 +236,7 @@ public class SSGameUI : SSGameMono
         if (gmDataPrefab != null)
         {
             SSDebug.Log("CreateGameDaoJiShi......................................................");
-            GameObject obj = (GameObject)Instantiate(gmDataPrefab);
+            GameObject obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
             SSGameDaoJiShi com = obj.GetComponent<SSGameDaoJiShi>();
             if (com != null)
             {
@@ -251,5 +256,123 @@ public class SSGameUI : SSGameMono
     internal void RemoveGameDaoJiShi()
     {
         IsCreateDaoJiShi = false;
+    }
+    
+    /// <summary>
+    /// 当玩家没有接住曲棍球时,给赢得玩家创建加分UI界面
+    /// </summary>
+    internal void CreateJiaFenUI(SSGlobalData.PlayerEnum indexPlayer)
+    {
+        int index = (int)indexPlayer + 1;
+        if (index < 1)
+        {
+            return;
+        }
+
+        string prefabPath = "GUI/JiaFen/JiaFenP" + index;
+        GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
+        if (gmDataPrefab != null)
+        {
+            SSDebug.Log("CreateJiaFenUI......................................................");
+            Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
+            SSGlobalData.GetInstance().AddPlayerFenShu(indexPlayer, m_GameUIData.JiaFenVal);
+        }
+        else
+        {
+            SSDebug.LogWarning("CreateJiaFenUI -> gmDataPrefab was null! prefabPath == " + prefabPath);
+        }
+    }
+
+    SSPlayerFenShu[] m_SSPlayerFenShu = new SSPlayerFenShu[SSGlobalData.MAX_PLAYER];
+    /// <summary>
+    /// 创建玩家分数UI界面
+    /// </summary>
+    void CreatePlayerFenShuUI()
+    {
+        for (int i = 0; i < SSGlobalData.MAX_PLAYER; i++)
+        {
+            CreatePlayerFenShuUI((SSGlobalData.PlayerEnum)i);
+        }
+    }
+
+    /// <summary>
+    /// 创建玩家分数UI界面
+    /// </summary>
+    void CreatePlayerFenShuUI(SSGlobalData.PlayerEnum indexPlayer)
+    {
+        int index = (int)indexPlayer + 1;
+        if (index < 1 || index > SSGlobalData.MAX_PLAYER)
+        {
+            return;
+        }
+
+        if (m_SSPlayerFenShu[index - 1] != null)
+        {
+            return;
+        }
+
+        string prefabPath = "GUI/FenShu/FenShuP" + index;
+        GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
+        if (gmDataPrefab != null)
+        {
+            SSDebug.Log("CreatePlayerFenShuUI......................................................");
+            GameObject obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
+            SSPlayerFenShu com = obj.GetComponent<SSPlayerFenShu>();
+            if (com != null)
+            {
+                m_SSPlayerFenShu[index - 1] = com;
+                com.Init(indexPlayer);
+            }
+        }
+        else
+        {
+            SSDebug.LogWarning("CreatePlayerFenShuUI -> gmDataPrefab was null! prefabPath == " + prefabPath);
+        }
+    }
+
+    /// <summary>
+    /// 删除玩家分数界面
+    /// </summary>
+    internal void RemovePlayerFenShu()
+    {
+        for (int i = 0; i < SSGlobalData.MAX_PLAYER; i++)
+        {
+            RemovePlayerFenShu((SSGlobalData.PlayerEnum)i);
+        }
+    }
+
+    /// <summary>
+    /// 删除玩家分数界面
+    /// </summary>
+    void RemovePlayerFenShu(SSGlobalData.PlayerEnum indexPlayer)
+    {
+        int index = (int)indexPlayer;
+        if (index < 0 || index >= SSGlobalData.MAX_PLAYER)
+        {
+            return;
+        }
+
+        if (m_SSPlayerFenShu[index] != null)
+        {
+            m_SSPlayerFenShu[index].RemoveSelf();
+            m_SSPlayerFenShu[index] = null;
+        }
+    }
+
+    /// <summary>
+    /// 展示玩家分数
+    /// </summary>
+    internal void ShowPlayerFenShu(SSGlobalData.PlayerEnum indexPlayer)
+    {
+        int index = (int)indexPlayer;
+        if (index < 0 || index >= SSGlobalData.MAX_PLAYER)
+        {
+            return;
+        }
+
+        if (m_SSPlayerFenShu[index] != null)
+        {
+            m_SSPlayerFenShu[index].ShowPlayerFenShu();
+        }
     }
 }

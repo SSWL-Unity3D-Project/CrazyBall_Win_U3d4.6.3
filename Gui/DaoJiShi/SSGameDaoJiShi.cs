@@ -132,6 +132,13 @@ public class SSGameDaoJiShi : MonoBehaviour
             Destroy(gameObject);
             SSGameMange.GetInstance().m_SSGameUI.ResetInfo();
             SSGameMange.GetInstance().m_SSGameUI.RemoveGameDaoJiShi();
+
+            //展示玩家获胜或失败UI界面
+
+            //删除玩家分数界面
+            SSGameMange.GetInstance().m_SSGameUI.RemovePlayerFenShu();
+            //重置数据信息
+            SSGlobalData.GetInstance().ResetInfo();
         }
     }
 }
