@@ -158,4 +158,21 @@ public class SSGameNumUI : SSGameMono
     {
         gameObject.SetActive(isActive);
     }
+
+    internal void ChangeNumSpriteArray(Sprite[] array)
+    {
+        if (m_NumImageData != null)
+        {
+            m_NumImageData.m_SpritArray = array;
+        }
+    }
+
+    internal Sprite[] GetNumSpriteArray()
+    {
+        if (m_NumImageData != null)
+        {
+            return m_NumImageData.m_SpritArray;
+        }
+        return null;
+    }
 }

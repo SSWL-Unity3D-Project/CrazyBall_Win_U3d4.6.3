@@ -68,6 +68,12 @@ public class SSGameUI : SSGameMono
                     //创建玩家发球倒计时
                     m_SSGameUI.CreateStartGameGo();
                 }
+
+                if (SSGameMange.GetInstance() != null && SSGameMange.GetInstance().m_SSGameScene != null)
+                {
+                    //开始创建道具
+                    SSGameMange.GetInstance().m_SSGameScene.StartCreateDaoJu();
+                }
             }
             else
             {

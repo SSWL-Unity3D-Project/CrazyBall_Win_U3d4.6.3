@@ -5,6 +5,22 @@
 /// </summary>
 public class SSGameMange : SSGameMono
 {
+    public class CleanupData
+    {
+        /// <summary>
+        /// 道具父级
+        /// </summary>
+        internal Transform DaoJuParent;
+        internal void Init()
+        {
+            GameObject objMission = new GameObject("MissionCleanup");
+            GameObject objDaoJu = new GameObject("DaoJuParent");
+            DaoJuParent = objDaoJu.transform;
+            DaoJuParent.SetParent(objMission.transform);
+        }
+    }
+    internal CleanupData m_CleanupData;
+
     static SSGameMange _Instance;
     public static SSGameMange GetInstance()
     {
@@ -30,8 +46,22 @@ public class SSGameMange : SSGameMono
     /// </summary>
     void Init()
     {
+        InitCleanupData();
         CreateGameScene();
         CreateGameUI();
+    }
+
+    void InitCleanupData()
+    {
+        if (m_CleanupData == null)
+        {
+            m_CleanupData = new CleanupData();
+        }
+
+        if (m_CleanupData != null)
+        {
+            m_CleanupData.Init();
+        }
     }
 
     /// <summary>

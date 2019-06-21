@@ -26,6 +26,20 @@ public class SSGameMono : MonoBehaviour
         return obj;
     }
 
+    /// <summary>
+    /// 产生预制.
+    /// </summary>
+    public Object Instantiate(GameObject prefab, Vector3 pos, Transform parent = null)
+    {
+        GameObject obj = (GameObject)Instantiate(prefab);
+        if (parent != null)
+        {
+            obj.transform.SetParent(parent);
+            obj.transform.position = pos;
+        }
+        return obj;
+    }
+
     bool IsRemoveSelf = false;
     /// <summary>
     /// 销毁自己

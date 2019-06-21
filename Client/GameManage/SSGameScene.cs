@@ -16,10 +16,16 @@ public class SSGameScene : MonoBehaviour
     public PaddleData m_PaddleData;
 
     /// <summary>
+    /// 游戏道具管理
+    /// </summary>
+    SSDaoJuManage m_SSDaoJuManage;
+
+    /// <summary>
     /// 初始化
     /// </summary>
     internal void Init()
     {
+        InitDaoJuManage();
         CreatePlayerPaddle(SSGlobalData.PlayerEnum.PlayerOne);
         CreatePlayerPaddle(SSGlobalData.PlayerEnum.PlayerTwo);
         CreateGameBall();
@@ -111,6 +117,48 @@ public class SSGameScene : MonoBehaviour
         else
         {
             SSDebug.LogWarning("CreateGameBall -> gmDataPrefab was null! prefabPath == " + prefabPath);
+        }
+    }
+
+    void InitDaoJuManage()
+    {
+        m_SSDaoJuManage = GetComponent<SSDaoJuManage>();
+        if (m_SSDaoJuManage != null)
+        {
+            m_SSDaoJuManage.Init();
+        }
+    }
+
+    /// <summary>
+    /// 开始创建道具
+    /// </summary>
+    internal void StartCreateDaoJu()
+    {
+        if (m_SSDaoJuManage != null)
+        {
+            m_SSDaoJuManage.StartCreateDaoJu();
+        }
+    }
+
+    /// <summary>
+    /// 停止创建道具
+    /// </summary>
+    internal void StopCreateDaoJu()
+    {
+        if (m_SSDaoJuManage != null)
+        {
+            m_SSDaoJuManage.StopCreateDaoJu();
+        }
+    }
+
+    /// <summary>
+    /// 删除道具
+    /// </summary>
+    internal void RemoveDaoJu(GameObject obj)
+    {
+        if (m_SSDaoJuManage != null)
+        {
+            m_SSDaoJuManage.RemoveDaoJuFromList(obj);
         }
     }
 

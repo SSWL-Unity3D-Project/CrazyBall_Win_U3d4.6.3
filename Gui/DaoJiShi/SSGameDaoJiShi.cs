@@ -7,6 +7,22 @@ public class SSGameDaoJiShi : MonoBehaviour
     public class DaoJiShiData
     {
         /// <summary>
+        /// 倒计时的分钟
+        /// </summary>
+        public SSGameNumUI m_TimeFen;
+        /// <summary>
+        /// 倒计时的秒数
+        /// </summary>
+        public SSGameNumUI m_TimeMiao;
+        /// <summary>
+        /// 10秒之后的倒计时UI图集
+        /// </summary>
+        public Sprite[] TeShuTimeNumArray = new Sprite[10];
+        /// <summary>
+        /// 原先倒计时UI图集
+        /// </summary>
+        Sprite[] OldTimeNumArray;
+        /// <summary>
         /// 游戏倒计时
         /// </summary>
         public int Time = 180;
@@ -22,6 +38,10 @@ public class SSGameDaoJiShi : MonoBehaviour
 
         internal void Init()
         {
+            if (m_TimeFen != null)
+            {
+                OldTimeNumArray = m_TimeFen.GetNumSpriteArray();
+            }
             ShowDaoJiShi();
         }
 
@@ -49,8 +69,54 @@ public class SSGameDaoJiShi : MonoBehaviour
 
         void ShowDaoJiShi()
         {
-            SSDebug.Log("ShowDaoJiShi -> DaoJiShi ======== " + DaoJiShi);
+            //SSDebug.Log("ShowDaoJiShi -> DaoJiShi ======== " + DaoJiShi);
+            CheckChangeTimeTuJi();
             //此处添加显示倒计时代码
+            int fenVal = DaoJiShi / 60;
+            int miaoVal = DaoJiShi % 60;
+            if (m_TimeFen != null)
+            {
+                m_TimeFen.ShowNumUI(fenVal);
+            }
+
+            if (m_TimeMiao != null)
+            {
+                m_TimeMiao.ShowNumUI(miaoVal);
+            }
+        }
+
+        bool IsChangeTimeTuJi = false;
+        /// <summary>
+        /// 检测是否需要更换倒计时数字图集
+        /// </summary>
+        void CheckChangeTimeTuJi()
+        {
+            if (DaoJiShi <= 10 && IsChangeTimeTuJi == false)
+            {
+                IsChangeTimeTuJi = true;
+                if (m_TimeFen != null)
+                {
+                    m_TimeFen.ChangeNumSpriteArray(TeShuTimeNumArray);
+                }
+
+                if (m_TimeMiao != null)
+                {
+                    m_TimeMiao.ChangeNumSpriteArray(TeShuTimeNumArray);
+                }
+            }
+            else if (DaoJiShi > 10 && IsChangeTimeTuJi == true)
+            {
+                IsChangeTimeTuJi = false;
+                if (m_TimeFen != null)
+                {
+                    m_TimeFen.ChangeNumSpriteArray(OldTimeNumArray);
+                }
+
+                if (m_TimeMiao != null)
+                {
+                    m_TimeMiao.ChangeNumSpriteArray(OldTimeNumArray);
+                }
+            }
         }
     }
     public DaoJiShiData m_DaoJiShiData;
@@ -121,7 +187,9 @@ public class SSGameDaoJiShi : MonoBehaviour
     bool IsRemoveSelf = false;
     void RemoveSelf()
     {
-        if (SSGameMange.GetInstance() == null || SSGameMange.GetInstance().m_SSGameUI == null)
+        if (SSGameMange.GetInstance() == null
+            || SSGameMange.GetInstance().m_SSGameUI == null
+            || SSGameMange.GetInstance().m_SSGameScene == null)
         {
             return;
         }
@@ -132,6 +200,8 @@ public class SSGameDaoJiShi : MonoBehaviour
             Destroy(gameObject);
             SSGameMange.GetInstance().m_SSGameUI.ResetInfo();
             SSGameMange.GetInstance().m_SSGameUI.RemoveGameDaoJiShi();
+            //停止创建道具
+            SSGameMange.GetInstance().m_SSGameScene.StopCreateDaoJu();
 
             //展示玩家获胜/失败/平局UI界面
             SSGameMange.GetInstance().m_SSGameUI.ShowPlayerGameRaceResult();

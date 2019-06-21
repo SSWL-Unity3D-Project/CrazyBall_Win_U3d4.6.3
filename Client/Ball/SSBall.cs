@@ -29,6 +29,7 @@ public class SSBall : MonoBehaviour
         /// 是否运动
         /// </summary>
         internal bool isMove = false;
+        internal SSGlobalData.PlayerEnum IndexPlayer = SSGlobalData.PlayerEnum.Null;
     }
     public BallData m_BallData;
 
@@ -62,6 +63,7 @@ public class SSBall : MonoBehaviour
             rigidbody.isKinematic = true;
             paddle.FillBall(m_BallData.posOffsetZ, this);
         }
+        SetBallPlayerIndex(indexPlayer);
     }
 
     /// <summary>
@@ -74,10 +76,6 @@ public class SSBall : MonoBehaviour
         m_BallData.isMove = true;
         m_BallData.ballSpeeding = m_BallData.ballSpeed;
         rigidbody.velocity = forward * m_BallData.ballSpeed;
-    }
-
-    void OnCollisionEnter(Collision col)
-    {
     }
 
     void Update()
@@ -118,6 +116,29 @@ public class SSBall : MonoBehaviour
             m_BallData.m_badBounceCount = 0;
         }
 
+        SSPlayerPaddle paddle = col.gameObject.GetComponent<SSPlayerPaddle>();
+        if (paddle != null)
+        {
+            SetBallPlayerIndex(paddle.IndexPlayer);
+        }
+    }
+
+    void SetBallPlayerIndex(SSGlobalData.PlayerEnum indexPlayer)
+    {
+        if (m_BallData != null)
+        {
+            m_BallData.IndexPlayer = indexPlayer;
+            //SSDebug.Log("SetBallPlayerIndex -> indexPlayer ============= " + indexPlayer);
+        }
+    }
+
+    internal SSGlobalData.PlayerEnum GetBallPlayerIndex()
+    {
+        if (m_BallData != null)
+        {
+            return m_BallData.IndexPlayer;
+        }
+        return SSGlobalData.PlayerEnum.Null;
     }
 
     void handleBadBounce()
