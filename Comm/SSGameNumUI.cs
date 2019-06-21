@@ -147,7 +147,7 @@ public class SSGameNumUI : SSGameMono
             {
                 powVal = (int)Mathf.Pow(10, i);
                 valTmp = numVal / powVal;
-                SSDebug.Log("ShowNumUI -> valTmp ====== " + valTmp);
+                //SSDebug.Log("ShowNumUI -> valTmp ====== " + valTmp);
                 m_NumImageData.ShowNum(i, valTmp);
                 numVal -= valTmp * powVal;
             }

@@ -1,5 +1,21 @@
 ﻿public class SSGlobalData
 {
+    public enum GameRaceResult
+    {
+        /// <summary>
+        /// 胜利
+        /// </summary>
+        Victory = 0,
+        /// <summary>
+        /// 失败
+        /// </summary>
+        Failure = 1,
+        /// <summary>
+        /// 平局
+        /// </summary>
+        PingJu = 2,
+    }
+
     public enum PlayerEnum
     {
         Null = -1,

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class SSGameUI : SSGameMono
 {
@@ -374,5 +376,198 @@ public class SSGameUI : SSGameMono
         {
             m_SSPlayerFenShu[index].ShowPlayerFenShu();
         }
+    }
+
+    /// <summary>
+    /// 游戏比赛结果
+    /// </summary>
+    List<GameObject> m_GameResult = new List<GameObject>();
+    /// <summary>
+    /// 添加游戏比赛结果
+    /// </summary>
+    void AddGameResult(GameObject obj)
+    {
+        if (obj != null && m_GameResult.Contains(obj) == false)
+        {
+            m_GameResult.Add(obj);
+        }
+    }
+
+    /// <summary>
+    /// 清楚游戏比赛结果
+    /// </summary>
+    internal void ClearGameResult()
+    {
+        if (m_GameResult != null && m_GameResult.Count > 0)
+        {
+            GameObject[] objArray = m_GameResult.ToArray();
+            m_GameResult.Clear();
+            for (int i = 0; i < objArray.Length; i++)
+            {
+                if (objArray[i] != null)
+                {
+                    Destroy(objArray[i]);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 展示玩家游戏比赛结果
+    /// </summary>
+    internal void ShowPlayerGameRaceResult()
+    {
+        int fenShuP1 = SSGlobalData.GetInstance().GetPlayerFenShu(SSGlobalData.PlayerEnum.PlayerOne);
+        int fenShuP2 = SSGlobalData.GetInstance().GetPlayerFenShu(SSGlobalData.PlayerEnum.PlayerTwo);
+        SSGlobalData.GameRaceResult resultP1 = SSGlobalData.GameRaceResult.PingJu;
+        SSGlobalData.GameRaceResult resultP2 = SSGlobalData.GameRaceResult.PingJu;
+        SSDebug.Log("ShowPlayerGameRaceResult -> fenShuP1 == " + fenShuP1);
+        SSDebug.Log("ShowPlayerGameRaceResult -> fenShuP2 == " + fenShuP2);
+
+        if (fenShuP1 == fenShuP2)
+        {
+            //平局
+            resultP1 = resultP2 = SSGlobalData.GameRaceResult.PingJu;
+        }
+        else if (fenShuP1 > fenShuP2)
+        {
+            resultP1 = SSGlobalData.GameRaceResult.Victory;
+            resultP2 = SSGlobalData.GameRaceResult.Failure;
+        }
+        else if (fenShuP1 < fenShuP2)
+        {
+            resultP1 = SSGlobalData.GameRaceResult.Failure;
+            resultP2 = SSGlobalData.GameRaceResult.Victory;
+        }
+
+        CreateGameResult(SSGlobalData.PlayerEnum.PlayerOne, resultP1);
+        CreateGameResult(SSGlobalData.PlayerEnum.PlayerTwo, resultP2);
+        StartCoroutine(DelayRemoveGameResult());
+    }
+
+    IEnumerator DelayRemoveGameResult()
+    {
+        yield return new WaitForSeconds(4f);
+        //删除游戏比赛结果界面
+        ClearGameResult();
+
+        //删除玩家分数界面
+        SSGameMange.GetInstance().m_SSGameUI.RemovePlayerFenShu();
+        //重置数据信息
+        SSGlobalData.GetInstance().ResetInfo();
+    }
+
+    /// <summary>
+    /// 创建游戏比赛结果
+    /// </summary>
+    void CreateGameResult(SSGlobalData.PlayerEnum indexPlayer, SSGlobalData.GameRaceResult result)
+    {
+        if (m_GameResult == null)
+        {
+            return;
+        }
+
+        GameObject obj = null;
+        switch (result)
+        {
+            case SSGlobalData.GameRaceResult.Victory:
+                {
+                    obj = CreateGameVictoryResult(indexPlayer);
+                    break;
+                }
+            case SSGlobalData.GameRaceResult.Failure:
+                {
+                    obj = CreateGameFailureResult(indexPlayer);
+                    break;
+                }
+            case SSGlobalData.GameRaceResult.PingJu:
+                {
+                    obj = CreateGamePingJuResult(indexPlayer);
+                    break;
+                }
+        }
+
+        if (obj != null)
+        {
+            AddGameResult(obj);
+        }
+    }
+
+    /// <summary>
+    /// 创建胜利界面
+    /// </summary>
+    GameObject CreateGameVictoryResult(SSGlobalData.PlayerEnum indexPlayer)
+    {
+        GameObject obj = null;
+        int index = (int)indexPlayer + 1;
+        if (index < 1 || index > SSGlobalData.MAX_PLAYER)
+        {
+            return obj;
+        }
+
+        string prefabPath = "GUI/FenShu/HuoShengP" + index;
+        GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
+        if (gmDataPrefab != null)
+        {
+            SSDebug.Log("CreateGameVictoryResult......................................................");
+            obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
+        }
+        else
+        {
+            SSDebug.LogWarning("CreateGameVictoryResult -> gmDataPrefab was null! prefabPath == " + prefabPath);
+        }
+        return obj;
+    }
+
+    /// <summary>
+    /// 创建失败界面
+    /// </summary>
+    GameObject CreateGameFailureResult(SSGlobalData.PlayerEnum indexPlayer)
+    {
+        GameObject obj = null;
+        int index = (int)indexPlayer + 1;
+        if (index < 1 || index > SSGlobalData.MAX_PLAYER)
+        {
+            return obj;
+        }
+
+        string prefabPath = "GUI/FenShu/ShiBaiP" + index;
+        GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
+        if (gmDataPrefab != null)
+        {
+            SSDebug.Log("CreateGameFailureResult......................................................");
+            obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
+        }
+        else
+        {
+            SSDebug.LogWarning("CreateGameFailureResult -> gmDataPrefab was null! prefabPath == " + prefabPath);
+        }
+        return obj;
+    }
+
+    /// <summary>
+    /// 创建平局界面
+    /// </summary>
+    GameObject CreateGamePingJuResult(SSGlobalData.PlayerEnum indexPlayer)
+    {
+        GameObject obj = null;
+        int index = (int)indexPlayer + 1;
+        if (index < 1 || index > SSGlobalData.MAX_PLAYER)
+        {
+            return obj;
+        }
+
+        string prefabPath = "GUI/FenShu/PingJuP" + index;
+        GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
+        if (gmDataPrefab != null)
+        {
+            SSDebug.Log("CreateGamePingJuResult......................................................");
+            obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
+        }
+        else
+        {
+            SSDebug.LogWarning("CreateGamePingJuResult -> gmDataPrefab was null! prefabPath == " + prefabPath);
+        }
+        return obj;
     }
 }
