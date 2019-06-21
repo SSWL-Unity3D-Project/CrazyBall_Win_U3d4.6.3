@@ -290,6 +290,31 @@ public class SSGameUI : SSGameMono
             SSDebug.LogWarning("CreateJiaFenUI -> gmDataPrefab was null! prefabPath == " + prefabPath);
         }
     }
+    
+    /// <summary>
+    /// 当玩家击出的住曲棍球碰上道具时,给该玩家创建道具加分UI界面
+    /// </summary>
+    internal void CreateDaoJuJiaFenUI(SSGlobalData.PlayerEnum indexPlayer)
+    {
+        int index = (int)indexPlayer + 1;
+        if (index < 1)
+        {
+            return;
+        }
+
+        string prefabPath = "GUI/JiaFen/DaoJuJiaFenP" + index;
+        GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
+        if (gmDataPrefab != null)
+        {
+            SSDebug.Log("CreateDaoJuJiaFenUI......................................................");
+            Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
+            SSGlobalData.GetInstance().AddPlayerFenShu(indexPlayer, m_GameUIData.JiaFenVal);
+        }
+        else
+        {
+            SSDebug.LogWarning("CreateDaoJuJiaFenUI -> gmDataPrefab was null! prefabPath == " + prefabPath);
+        }
+    }
 
     SSPlayerFenShu[] m_SSPlayerFenShu = new SSPlayerFenShu[SSGlobalData.MAX_PLAYER];
     /// <summary>

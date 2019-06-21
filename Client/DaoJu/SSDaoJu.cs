@@ -36,6 +36,11 @@ public class SSDaoJu : SSGameMono
                 {
                     SSGameMange.GetInstance().m_SSGameScene.RemoveDaoJu(gameObject);
                 }
+
+                if (SSGameMange.GetInstance() != null && SSGameMange.GetInstance().m_SSGameUI != null)
+                {
+                    SSGameMange.GetInstance().m_SSGameUI.CreateDaoJuJiaFenUI(indexPlayer);
+                }
                 RemoveSelf();
             }
         }
