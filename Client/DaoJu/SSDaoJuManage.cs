@@ -31,7 +31,7 @@ public class SSDaoJuManage : SSGameMono
         /// <summary>
         /// 道具产生点数组
         /// </summary>
-        public Transform[] TrPointArray;
+        internal Transform[] TrPointArray;
         internal void Init()
         {
             if (TrPointParent != null)
