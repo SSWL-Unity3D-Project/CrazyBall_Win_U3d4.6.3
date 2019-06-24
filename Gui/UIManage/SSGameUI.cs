@@ -71,8 +71,8 @@ public class SSGameUI : SSGameMono
 
                 if (SSGameMange.GetInstance() != null && SSGameMange.GetInstance().m_SSGameScene != null)
                 {
-                    //开始创建道具
-                    SSGameMange.GetInstance().m_SSGameScene.StartCreateDaoJu();
+                    //游戏开始
+                    SSGameMange.GetInstance().m_SSGameScene.OnGameStart();
                 }
             }
             else

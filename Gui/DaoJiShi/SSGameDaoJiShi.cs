@@ -200,8 +200,8 @@ public class SSGameDaoJiShi : MonoBehaviour
             Destroy(gameObject);
             SSGameMange.GetInstance().m_SSGameUI.ResetInfo();
             SSGameMange.GetInstance().m_SSGameUI.RemoveGameDaoJiShi();
-            //停止创建道具
-            SSGameMange.GetInstance().m_SSGameScene.StopCreateDaoJu();
+            //游戏结束
+            SSGameMange.GetInstance().m_SSGameScene.OnGameOver();
 
             //展示玩家获胜/失败/平局UI界面
             SSGameMange.GetInstance().m_SSGameUI.ShowPlayerGameRaceResult();

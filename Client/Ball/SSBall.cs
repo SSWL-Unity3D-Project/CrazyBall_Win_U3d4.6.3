@@ -13,7 +13,20 @@ public class SSBall : MonoBehaviour
         /// 曲棍球的初始速度
         /// </summary>
         public float ballSpeed = 20f;
-        internal float ballSpeeding = 0f;
+        internal float ballSpeeding
+        {
+            get
+            {
+                float speed = ballSpeed;
+                if (SSGameMange.GetInstance() != null
+                    && SSGameMange.GetInstance().m_SSGameScene != null
+                    && SSGameMange.GetInstance().m_SSGameScene.m_BallData != null)
+                {
+                    speed = SSGameMange.GetInstance().m_SSGameScene.m_BallData.moveSpeed;
+                }
+                return speed;
+            }
+        }
         /// <summary>
         /// 撞上碰撞物后反弹的最小角度
         /// </summary>
@@ -74,8 +87,8 @@ public class SSBall : MonoBehaviour
         transform.SetParent(null);
         rigidbody.isKinematic = false;
         m_BallData.isMove = true;
-        m_BallData.ballSpeeding = m_BallData.ballSpeed;
-        rigidbody.velocity = forward * m_BallData.ballSpeed;
+        //m_BallData.ballSpeeding = m_BallData.ballSpeed;
+        rigidbody.velocity = forward * m_BallData.ballSpeeding;
     }
 
     void Update()

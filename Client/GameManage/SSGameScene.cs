@@ -12,8 +12,29 @@ public class SSGameScene : MonoBehaviour
         public float minPos = -10f;
         public float maxPos = 10f;
         public float moveSpeed = 1f;
+        internal void SetMoveSpeed(float val)
+        {
+            moveSpeed = val;
+        }
     }
     public PaddleData m_PaddleData;
+
+    /// <summary>
+    /// 曲棍球控制数据
+    /// </summary>
+    public class BallData
+    {
+        public float moveSpeed = 40f;
+        internal void SetMoveSpeed(float val)
+        {
+            moveSpeed = val;
+        }
+    }
+    /// <summary>
+    /// 曲棍球控制数据
+    /// </summary>
+    public BallData m_BallData = new BallData();
+
 
     /// <summary>
     /// 游戏道具管理
@@ -25,6 +46,7 @@ public class SSGameScene : MonoBehaviour
     /// </summary>
     internal void Init()
     {
+        InitSSGameNanDu();
         InitDaoJuManage();
         CreatePlayerPaddle(SSGlobalData.PlayerEnum.PlayerOne);
         CreatePlayerPaddle(SSGlobalData.PlayerEnum.PlayerTwo);
@@ -160,6 +182,78 @@ public class SSGameScene : MonoBehaviour
         {
             m_SSDaoJuManage.RemoveDaoJuFromList(obj);
         }
+    }
+
+    SSGameNanDu m_SSGameNanDu;
+    /// <summary>
+    /// 初始化游戏难度控制
+    /// </summary>
+    void InitSSGameNanDu()
+    {
+        m_SSGameNanDu = GetComponent<SSGameNanDu>();
+        if (m_SSGameNanDu != null)
+        {
+            m_SSGameNanDu.Init();
+        }
+    }
+
+    /// <summary>
+    /// 开始检测游戏难度
+    /// </summary>
+    internal void StartCheckGameNanDu()
+    {
+        if (m_SSGameNanDu != null)
+        {
+            m_SSGameNanDu.StartLoopCheckNextGameNanDu();
+        }
+    }
+
+    /// <summary>
+    /// 停止游戏难度检测
+    /// </summary>
+    void StopCheckGameNanDu()
+    {
+        if (m_SSGameNanDu != null)
+        {
+            m_SSGameNanDu.OnGameOver();
+        }
+    }
+
+    internal void SetGameNanDu(float ballSpeed, float paddleSpeed)
+    {
+        //SSDebug.Log("SetGameNanDu -> ballSpeed ======= " + ballSpeed + ", paddleSpeed ======= " + paddleSpeed);
+        if (m_PaddleData != null)
+        {
+            //设置球拍的运动速度
+            m_PaddleData.SetMoveSpeed(paddleSpeed);
+        }
+
+        if (m_BallData != null)
+        {
+            m_BallData.SetMoveSpeed(ballSpeed);
+        }
+    }
+
+    /// <summary>
+    /// 当游戏开始
+    /// </summary>
+    internal void OnGameStart()
+    {
+        //开始创建道具
+        StartCreateDaoJu();
+        //开始游戏难度控制
+        StartCheckGameNanDu();
+    }
+
+    /// <summary>
+    /// 游戏结束时进入该函数
+    /// </summary>
+    internal void OnGameOver()
+    {
+        //停止创建道具
+        StopCreateDaoJu();
+        //停止游戏难度检测
+        StopCheckGameNanDu();
     }
 
     /// <summary>
