@@ -46,6 +46,7 @@ public class SSGameScene : MonoBehaviour
     /// </summary>
     internal void Init()
     {
+        InitWeiDangMesh();
         InitSSGameNanDu();
         InitDaoJuManage();
         CreatePlayerPaddle(SSGlobalData.PlayerEnum.PlayerOne);
@@ -235,6 +236,29 @@ public class SSGameScene : MonoBehaviour
     }
 
     /// <summary>
+    /// 游戏场地范围材质管理组件
+    /// </summary>
+    SSWeiDangMesh m_SSWeiDangMesh;
+    /// <summary>
+    /// 初始化游戏场地范围材质管理组件
+    /// </summary>
+    void InitWeiDangMesh()
+    {
+        m_SSWeiDangMesh = GetComponent<SSWeiDangMesh>();
+    }
+
+    /// <summary>
+    /// 设置游戏场地范围材质
+    /// </summary>
+    internal void SetWeiDangMesh(int index)
+    {
+        if (m_SSWeiDangMesh != null)
+        {
+            m_SSWeiDangMesh.SetMeshMaterial(index);
+        }
+    }
+
+    /// <summary>
     /// 当游戏开始
     /// </summary>
     internal void OnGameStart()
@@ -254,6 +278,7 @@ public class SSGameScene : MonoBehaviour
         StopCreateDaoJu();
         //停止游戏难度检测
         StopCheckGameNanDu();
+        SetWeiDangMesh(0);
     }
 
     /// <summary>

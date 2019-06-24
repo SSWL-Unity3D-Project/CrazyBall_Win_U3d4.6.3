@@ -88,6 +88,12 @@ public class SSGameNanDu : MonoBehaviour
             //SSDebug.Log("LoopCheckNextGameNanDu -> loopCount ========== " + loopCount);
             if (loopCount == 0)
             {
+                if (SSGameMange.GetInstance() != null
+                    && SSGameMange.GetInstance().m_SSGameScene != null)
+                {
+                    SSGameMange.GetInstance().m_SSGameScene.SetWeiDangMesh(m_IndexNanDu);
+                }
+                
                 SetGameNanDu(m_IndexNanDu);
                 if (m_IndexNanDu == m_NanDuDtArray.Length - 1)
                 {
