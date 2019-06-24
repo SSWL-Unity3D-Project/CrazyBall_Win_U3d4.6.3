@@ -46,9 +46,16 @@ public class SSGameMange : SSGameMono
     /// </summary>
     void Init()
     {
+        SetGameResolution();
         InitCleanupData();
         CreateGameScene();
         CreateGameUI();
+    }
+
+    void SetGameResolution()
+    {
+        Screen.showCursor = false;
+        Screen.SetResolution(1360, 768, true);
     }
 
     void InitCleanupData()
