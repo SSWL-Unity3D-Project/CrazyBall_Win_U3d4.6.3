@@ -294,7 +294,7 @@ public class SSGameUI : SSGameMono
     /// <summary>
     /// 当玩家击出的住曲棍球碰上道具时,给该玩家创建道具加分UI界面
     /// </summary>
-    internal void CreateDaoJuJiaFenUI(SSGlobalData.PlayerEnum indexPlayer)
+    internal void CreateDaoJuJiaFenUI(SSGlobalData.PlayerEnum indexPlayer, int fenShu)
     {
         int index = (int)indexPlayer + 1;
         if (index < 1)
@@ -307,8 +307,12 @@ public class SSGameUI : SSGameMono
         if (gmDataPrefab != null)
         {
             SSDebug.Log("CreateDaoJuJiaFenUI......................................................");
-            Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
-            SSGlobalData.GetInstance().AddPlayerFenShu(indexPlayer, m_GameUIData.JiaFenVal);
+            GameObject obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
+            SSDaoJuJiaFen com = obj.GetComponent<SSDaoJuJiaFen>();
+            if (com != null)
+            {
+                com.ShowNumUI(fenShu);
+            }
         }
         else
         {
