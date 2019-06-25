@@ -209,7 +209,7 @@ public class SSDaoJuManage : SSGameMono
 
         for (int i = 0; i < max; i++)
         {
-            int daoJuIndex = UnityEngine.Random.Range(1, m_ManageData.MaxDaoJuPrefab);
+            int daoJuIndex = (UnityEngine.Random.Range(0, 100) % m_ManageData.MaxDaoJuPrefab) + 1;
             Transform tr = m_ManageData.TrPointArray[pointIndex % pointLength];
             pointIndex++;
             GameObject obj = CreateDaoJu(daoJuIndex, tr);
