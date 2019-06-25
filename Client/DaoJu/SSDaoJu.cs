@@ -10,6 +10,10 @@ public class SSDaoJu : SSGameMono
         /// 玩家击出的曲棍球碰上道具后的得分
         /// </summary>
         public int FenShu = 10;
+        /// <summary>
+        /// 爆炸特效预制
+        /// </summary>
+        public GameObject TeXiaoPrefab;
     }
     public DaoJuData m_DaoJuData;
 
@@ -18,6 +22,16 @@ public class SSDaoJu : SSGameMono
         CheckAddFenShuToPlayer(col.gameObject);
     }
 
+    internal void CreateTeXiao()
+    {
+        if (m_DaoJuData != null && m_DaoJuData.TeXiaoPrefab != null)
+        {
+            Transform trParent = SSGameMange.GetInstance().m_CleanupData.DaoJuParent;
+            GameObject obj = (GameObject)Instantiate(m_DaoJuData.TeXiaoPrefab, trParent, transform);
+            CheckDestroyThisTimed(obj);
+        }
+    }
+    
     void CheckAddFenShuToPlayer(GameObject obj)
     {
         if (obj == null)
@@ -41,6 +55,7 @@ public class SSDaoJu : SSGameMono
                 {
                     SSGameMange.GetInstance().m_SSGameUI.CreateDaoJuJiaFenUI(indexPlayer, m_DaoJuData.FenShu);
                 }
+                CreateTeXiao();
                 RemoveSelf();
             }
         }

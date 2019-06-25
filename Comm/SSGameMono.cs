@@ -52,4 +52,19 @@ public class SSGameMono : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    /// <summary>
+    /// 检测是否配置有DestroyThisTimed组件
+    /// </summary>
+    internal void CheckDestroyThisTimed(GameObject obj)
+    {
+        if (obj != null)
+        {
+            DestroyThisTimed com = obj.GetComponent<DestroyThisTimed>();
+            if (com == null)
+            {
+                obj.AddComponent<DestroyThisTimed>();
+            }
+        }
+    }
 }

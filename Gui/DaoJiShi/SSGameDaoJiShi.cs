@@ -51,8 +51,6 @@ public class SSGameDaoJiShi : MonoBehaviour
             {
                 IsEndDaoJiShi = true;
                 //倒计时结束
-                //展示玩家输赢UI界面
-
                 //重置曲棍球位置
                 if (SSGameMange.GetInstance() != null
                     && SSGameMange.GetInstance().m_SSGameScene != null
