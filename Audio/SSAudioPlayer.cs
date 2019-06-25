@@ -100,7 +100,7 @@ public class SSAudioPlayer : MonoBehaviour
 
             do
             {
-                SSDebug.Log("time ====== " + Time.time);
+                //SSDebug.Log("time ====== " + Time.time);
                 if (audioSource.isPlaying == false)
                 {
                     //播放下一个音乐
