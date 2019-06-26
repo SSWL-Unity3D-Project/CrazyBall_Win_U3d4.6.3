@@ -230,44 +230,44 @@ public class InputEventCtrl : MonoBehaviour
 
         //默认玩家1在屏幕左侧
         //player_1.
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.W))
         {
             OnClickFangXiangLBt(SSGlobalData.PlayerEnum.PlayerOne, ButtonState.DOWN);
         }
 
-        if (Input.GetKeyUp(KeyCode.A))
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.W))
         {
             OnClickFangXiangLBt(SSGlobalData.PlayerEnum.PlayerOne, ButtonState.UP);
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
         {
             OnClickFangXiangRBt(SSGlobalData.PlayerEnum.PlayerOne, ButtonState.DOWN);
         }
 
-        if (Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.S))
         {
             OnClickFangXiangRBt(SSGlobalData.PlayerEnum.PlayerOne, ButtonState.UP);
         }
 
         //默认玩家2在屏幕右侧
         //player_2.
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             OnClickFangXiangLBt(SSGlobalData.PlayerEnum.PlayerTwo, ButtonState.DOWN);
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.UpArrow))
         {
             OnClickFangXiangLBt(SSGlobalData.PlayerEnum.PlayerTwo, ButtonState.UP);
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             OnClickFangXiangRBt(SSGlobalData.PlayerEnum.PlayerTwo, ButtonState.DOWN);
         }
 
-        if (Input.GetKeyUp(KeyCode.RightArrow))
+        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.DownArrow))
         {
             OnClickFangXiangRBt(SSGlobalData.PlayerEnum.PlayerTwo, ButtonState.UP);
         }
