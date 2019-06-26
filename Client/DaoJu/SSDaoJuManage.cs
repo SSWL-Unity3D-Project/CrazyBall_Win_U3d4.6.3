@@ -96,12 +96,27 @@ public class SSDaoJuManage : SSGameMono
                 yield break;
             }
 
+            if (SSGameMange.GetInstance().m_SSGameUI.GetIsCreateStartFireBall() == true)
+            {
+                //创建了开始发球界面
+                yield return new WaitForSeconds(0.1f);
+                continue;
+            }
+
             float time = m_ManageData.TimeCreateDaoJu.GetRandom();
             yield return new WaitForSeconds(time);
             if (IsDelayStartCreateDaoJu == false)
             {
                 yield break;
             }
+
+            if (SSGameMange.GetInstance().m_SSGameUI.GetIsCreateStartFireBall() == true)
+            {
+                //创建了开始发球界面
+                yield return new WaitForSeconds(0.1f);
+                continue;
+            }
+
             //产生道具
             RandomCreateDaoJu();
 
@@ -119,6 +134,12 @@ public class SSDaoJuManage : SSGameMono
                 if (isEmpty == true)
                 {
                     //开始下一轮的道具产生
+                    break;
+                }
+
+                if (SSGameMange.GetInstance().m_SSGameUI.GetIsCreateStartFireBall() == true)
+                {
+                    //创建了开始发球界面
                     break;
                 }
             }

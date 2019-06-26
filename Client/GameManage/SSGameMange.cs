@@ -84,7 +84,7 @@ public class SSGameMange : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateGameScene......................................................");
+            //SSDebug.Log("CreateGameScene......................................................");
             GameObject obj = (GameObject)Instantiate(gmDataPrefab);
             SSGameScene com = obj.GetComponent<SSGameScene>();
             if (com != null)
@@ -112,7 +112,7 @@ public class SSGameMange : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateGameUI......................................................");
+            //SSDebug.Log("CreateGameUI......................................................");
             GameObject obj = (GameObject)Instantiate(gmDataPrefab);
             SSGameUI com = obj.GetComponent<SSGameUI>();
             if (com != null)

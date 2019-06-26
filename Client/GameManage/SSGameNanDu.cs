@@ -85,6 +85,13 @@ public class SSGameNanDu : MonoBehaviour
         float time = 1f;
         do
         {
+            if (SSGameMange.GetInstance().m_SSGameUI.GetIsCreateStartFireBall() == true)
+            {
+                //创建了开始发球界面
+                yield return new WaitForSeconds(0.1f);
+                continue;
+            }
+
             //SSDebug.Log("LoopCheckNextGameNanDu -> loopCount ========== " + loopCount);
             if (loopCount == 0)
             {

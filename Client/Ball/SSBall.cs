@@ -32,13 +32,9 @@ public class SSBall : MonoBehaviour
             }
         }
         /// <summary>
-        /// 撞上碰撞物后反弹的最小角度
+        /// 曲棍球碰到范围阻挡后的离去角度控制信息
         /// </summary>
-        internal float minBounceAngle = 25;
-        /// <summary>
-        /// 撞上碰撞物后反弹的最大角度
-        /// </summary>
-        internal float maxBounceAngle = 45;
+        SSGlobalData.MinMaxDataFloat bounceAngle = new SSGlobalData.MinMaxDataFloat(25f, 45f);
         internal int badBounceLayer = 10;
         internal int m_badBounceCount = 0;
         internal int timesBeforeCorrectingBadBounce = 2;
@@ -54,6 +50,10 @@ public class SSBall : MonoBehaviour
             {
                 audioPlayer.Play(SSAudioPlayer.Mode.Once);
             }
+        }
+        internal float GetRandomBounceAngle()
+        {
+            return bounceAngle.GetRandom();
         }
     }
     public BallData m_BallData;
@@ -176,7 +176,7 @@ public class SSBall : MonoBehaviour
         }
 
         Vector3 vel = rigidbody.velocity.normalized;
-        float angleBounce = Random.Range(m_BallData.minBounceAngle, m_BallData.maxBounceAngle);
+        float angleBounce = m_BallData.GetRandomBounceAngle();
         //SSDebug.Log("handleBadBounce -> vel == " + vel);
         if (vel.z > 0.9f)
         {

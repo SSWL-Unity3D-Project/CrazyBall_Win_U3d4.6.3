@@ -15,7 +15,7 @@ public class SSPlayerFenShu : SSGameMono
     internal void ShowPlayerFenShu()
     {
         int fenShu = SSGlobalData.GetInstance().GetPlayerFenShu(m_IndexPlayer);
-        SSDebug.Log("ShowPlayerFenShu -> fenShu ========= " + fenShu + ", indexPlayer == " + m_IndexPlayer);
+        //SSDebug.Log("ShowPlayerFenShu -> fenShu ========= " + fenShu + ", indexPlayer == " + m_IndexPlayer);
         if (m_SSGameNumUI != null)
         {
             m_SSGameNumUI.ShowNumUI(fenShu);

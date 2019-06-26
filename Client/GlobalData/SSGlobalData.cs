@@ -52,6 +52,14 @@ public class SSGlobalData
     {
         public float Min = 0f;
         public float Max = 10f;
+        public MinMaxDataFloat()
+        {
+        }
+        public MinMaxDataFloat(float min, float max)
+        {
+            Min = min;
+            Max = max;
+        }
         internal float GetRandom()
         {
             return Random.Range(Min, Max);

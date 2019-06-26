@@ -165,7 +165,7 @@ public class SSGameUI : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateStartGameGo......................................................");
+            //SSDebug.Log("CreateStartGameGo......................................................");
             GameObject obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
             SSStartGameGo com = obj.GetComponent<SSStartGameGo>();
             if (com != null)
@@ -189,7 +189,15 @@ public class SSGameUI : SSGameMono
     /// <summary>
     /// 是否创建开始发球界面
     /// </summary>
-    internal bool IsCreateStartFireBall = false;
+    bool IsCreateStartFireBall = false;
+    /// <summary>
+    /// 获取是否创建开始发球界面
+    /// </summary>
+    internal bool GetIsCreateStartFireBall()
+    {
+        return IsCreateStartFireBall;
+    }
+
     /// <summary>
     /// 创建开始发球界面
     /// </summary>
@@ -205,7 +213,7 @@ public class SSGameUI : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateStartFireBall......................................................");
+            //SSDebug.Log("CreateStartFireBall......................................................");
             GameObject obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
             SSStartGameGo com = obj.GetComponent<SSStartGameGo>();
             if (com != null)
@@ -243,7 +251,7 @@ public class SSGameUI : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateGameDaoJiShi......................................................");
+            //SSDebug.Log("CreateGameDaoJiShi......................................................");
             GameObject obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
             SSGameDaoJiShi com = obj.GetComponent<SSGameDaoJiShi>();
             if (com != null)
@@ -281,7 +289,7 @@ public class SSGameUI : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateJiaFenUI......................................................");
+            //SSDebug.Log("CreateJiaFenUI......................................................");
             Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
             SSGlobalData.GetInstance().AddPlayerFenShu(indexPlayer, m_GameUIData.JiaFenVal);
         }
@@ -306,7 +314,7 @@ public class SSGameUI : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateDaoJuJiaFenUI......................................................");
+            //SSDebug.Log("CreateDaoJuJiaFenUI......................................................");
             GameObject obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
             SSDaoJuJiaFen com = obj.GetComponent<SSDaoJuJiaFen>();
             if (com != null)
@@ -352,7 +360,7 @@ public class SSGameUI : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreatePlayerFenShuUI......................................................");
+            //SSDebug.Log("CreatePlayerFenShuUI......................................................");
             GameObject obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
             SSPlayerFenShu com = obj.GetComponent<SSPlayerFenShu>();
             if (com != null)
@@ -456,8 +464,8 @@ public class SSGameUI : SSGameMono
         int fenShuP2 = SSGlobalData.GetInstance().GetPlayerFenShu(SSGlobalData.PlayerEnum.PlayerTwo);
         SSGlobalData.GameRaceResult resultP1 = SSGlobalData.GameRaceResult.PingJu;
         SSGlobalData.GameRaceResult resultP2 = SSGlobalData.GameRaceResult.PingJu;
-        SSDebug.Log("ShowPlayerGameRaceResult -> fenShuP1 == " + fenShuP1);
-        SSDebug.Log("ShowPlayerGameRaceResult -> fenShuP2 == " + fenShuP2);
+        //SSDebug.Log("ShowPlayerGameRaceResult -> fenShuP1 == " + fenShuP1);
+        //SSDebug.Log("ShowPlayerGameRaceResult -> fenShuP2 == " + fenShuP2);
 
         if (fenShuP1 == fenShuP2)
         {
@@ -544,7 +552,7 @@ public class SSGameUI : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateGameVictoryResult......................................................");
+            //SSDebug.Log("CreateGameVictoryResult......................................................");
             obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
         }
         else
@@ -570,7 +578,7 @@ public class SSGameUI : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateGameFailureResult......................................................");
+            //SSDebug.Log("CreateGameFailureResult......................................................");
             obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
         }
         else
@@ -596,7 +604,7 @@ public class SSGameUI : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateGamePingJuResult......................................................");
+            //SSDebug.Log("CreateGamePingJuResult......................................................");
             obj = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
         }
         else

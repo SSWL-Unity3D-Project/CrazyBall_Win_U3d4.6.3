@@ -122,7 +122,7 @@ public class SSGameScene : MonoBehaviour
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreatePlayerPaddle................. indexPlayer == " + indexPlayer);
+            //SSDebug.Log("CreatePlayerPaddle................. indexPlayer == " + indexPlayer);
             GameObject obj = (GameObject)Instantiate(gmDataPrefab);
             SSPlayerPaddle com = obj.GetComponent<SSPlayerPaddle>();
             if (com != null)
@@ -150,7 +150,7 @@ public class SSGameScene : MonoBehaviour
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            SSDebug.Log("CreateGameBall......................................................");
+            //SSDebug.Log("CreateGameBall......................................................");
             GameObject obj = (GameObject)Instantiate(gmDataPrefab);
             SSBall com = obj.GetComponent<SSBall>();
             if (com != null)
@@ -287,8 +287,6 @@ public class SSGameScene : MonoBehaviour
     {
         //开始创建道具
         StartCreateDaoJu();
-        //开始游戏难度控制
-        StartCheckGameNanDu();
     }
 
     /// <summary>

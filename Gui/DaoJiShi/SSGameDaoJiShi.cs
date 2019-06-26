@@ -142,6 +142,13 @@ public class SSGameDaoJiShi : MonoBehaviour
 
     internal void Init()
     {
+        if (SSGameMange.GetInstance() != null && SSGameMange.GetInstance().m_SSGameScene != null)
+        {
+            //开始创建道具
+            SSGameMange.GetInstance().m_SSGameScene.StartCreateDaoJu();
+            //开始游戏难度控制
+            SSGameMange.GetInstance().m_SSGameScene.StartCheckGameNanDu();
+        }
         StartCoroutine(LoopDownDaoJiShi());
     }
 
@@ -175,7 +182,7 @@ public class SSGameDaoJiShi : MonoBehaviour
 
         do
         {
-            if (SSGameMange.GetInstance().m_SSGameUI.IsCreateStartFireBall == true)
+            if (SSGameMange.GetInstance().m_SSGameUI.GetIsCreateStartFireBall() == true)
             {
                 //创建了开始发球界面,倒计时停止
                 yield return new WaitForSeconds(0.1f);
