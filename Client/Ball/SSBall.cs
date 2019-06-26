@@ -13,6 +13,10 @@ public class SSBall : MonoBehaviour
         /// 曲棍球的初始速度
         /// </summary>
         public float ballSpeed = 20f;
+        /// <summary>
+        /// 曲棍球的碰撞音效
+        /// </summary>
+        public SSAudioPlayer audioPlayer;
         internal float ballSpeeding
         {
             get
@@ -43,6 +47,14 @@ public class SSBall : MonoBehaviour
         /// </summary>
         internal bool isMove = false;
         internal SSGlobalData.PlayerEnum IndexPlayer = SSGlobalData.PlayerEnum.Null;
+
+        internal void PlayAudio()
+        {
+            if (audioPlayer != null)
+            {
+                audioPlayer.Play(SSAudioPlayer.Mode.Once);
+            }
+        }
     }
     public BallData m_BallData;
 
@@ -123,6 +135,7 @@ public class SSBall : MonoBehaviour
                 //SSDebug.Log("handle bad bounce!");
                 handleBadBounce();
             }
+            m_BallData.PlayAudio();
         }
         else
         {
@@ -132,6 +145,7 @@ public class SSBall : MonoBehaviour
         SSPlayerPaddle paddle = col.gameObject.GetComponent<SSPlayerPaddle>();
         if (paddle != null)
         {
+            m_BallData.PlayAudio();
             SetBallPlayerIndex(paddle.IndexPlayer);
         }
     }

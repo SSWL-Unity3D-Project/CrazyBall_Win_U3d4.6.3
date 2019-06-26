@@ -3,6 +3,20 @@ using UnityEngine;
 
 public class SSGameScene : MonoBehaviour
 {
+    [System.Serializable]
+    public class SceneData
+    {
+        public SSAudioPlayer audioPlayer;
+        internal void PlayAudio()
+        {
+            if (audioPlayer != null)
+            {
+                audioPlayer.Play(SSAudioPlayer.Mode.Loop);
+            }
+        }
+    }
+    public SceneData m_SceneData;
+
     /// <summary>
     /// 玩家球拍数据信息
     /// </summary>
@@ -34,8 +48,7 @@ public class SSGameScene : MonoBehaviour
     /// 曲棍球控制数据
     /// </summary>
     public BallData m_BallData = new BallData();
-
-
+    
     /// <summary>
     /// 游戏道具管理
     /// </summary>
@@ -52,6 +65,15 @@ public class SSGameScene : MonoBehaviour
         CreatePlayerPaddle(SSGlobalData.PlayerEnum.PlayerOne);
         CreatePlayerPaddle(SSGlobalData.PlayerEnum.PlayerTwo);
         CreateGameBall();
+        PlayAudio();
+    }
+
+    void PlayAudio()
+    {
+        if (m_SceneData != null)
+        {
+            m_SceneData.PlayAudio();
+        }
     }
     
     /// <summary>

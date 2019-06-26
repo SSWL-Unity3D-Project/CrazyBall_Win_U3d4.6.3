@@ -7,6 +7,11 @@ public class SSGameDaoJiShi : MonoBehaviour
     public class DaoJiShiData
     {
         /// <summary>
+        /// 游戏倒计时
+        /// </summary>
+        public int Time = 180;
+        public SSAudioPlayer audioPlayer;
+        /// <summary>
         /// 倒计时的分钟
         /// </summary>
         public SSGameNumUI m_TimeFen;
@@ -22,10 +27,6 @@ public class SSGameDaoJiShi : MonoBehaviour
         /// 原先倒计时UI图集
         /// </summary>
         Sprite[] OldTimeNumArray;
-        /// <summary>
-        /// 游戏倒计时
-        /// </summary>
-        public int Time = 180;
         int DaoJiShi = 0;
         /// <summary>
         /// 倒计时是否结束播放
@@ -51,6 +52,8 @@ public class SSGameDaoJiShi : MonoBehaviour
             {
                 IsEndDaoJiShi = true;
                 //倒计时结束
+                StopAudio();
+
                 //重置曲棍球位置
                 if (SSGameMange.GetInstance() != null
                     && SSGameMange.GetInstance().m_SSGameScene != null
@@ -101,6 +104,7 @@ public class SSGameDaoJiShi : MonoBehaviour
                 {
                     m_TimeMiao.ChangeNumSpriteArray(TeShuTimeNumArray);
                 }
+                PlayAudio();
             }
             else if (DaoJiShi > 10 && IsChangeTimeTuJi == true)
             {
@@ -114,6 +118,23 @@ public class SSGameDaoJiShi : MonoBehaviour
                 {
                     m_TimeMiao.ChangeNumSpriteArray(OldTimeNumArray);
                 }
+                StopAudio();
+            }
+        }
+
+        void PlayAudio()
+        {
+            if (audioPlayer != null)
+            {
+                audioPlayer.Play(SSAudioPlayer.Mode.Loop);
+            }
+        }
+
+        void StopAudio()
+        {
+            if (audioPlayer != null)
+            {
+                audioPlayer.Stop();
             }
         }
     }

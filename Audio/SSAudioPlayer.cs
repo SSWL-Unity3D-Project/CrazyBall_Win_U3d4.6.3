@@ -4,6 +4,15 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class SSAudioPlayer : MonoBehaviour
 {
+    /// <summary>
+    /// 声音播放模式
+    /// </summary>
+    public enum Mode
+    {
+        Once = 0,
+        Loop = 1,
+    }
+
     [System.Serializable]
     public class AudioData
     {
@@ -59,13 +68,14 @@ public class SSAudioPlayer : MonoBehaviour
             return clip;
         }
         
-        internal void Play()
+        internal void Play(Mode mode)
         {
             if (audioSource != null && audioSource.isPlaying == false)
             {
                 AudioClip clip = GetAudioClip();
                 if (clip != null)
                 {
+                    audioSource.loop = mode == Mode.Once ? false : true;
                     audioSource.clip = clip;
                     audioSource.Play();
                 }
@@ -86,7 +96,7 @@ public class SSAudioPlayer : MonoBehaviour
         /// </summary>
         void PlayNextAudio()
         {
-            Play();
+            Play(Mode.Once);
         }
 
         bool IsPlayNextAudioClip = false;
@@ -152,7 +162,7 @@ public class SSAudioPlayer : MonoBehaviour
         }
     }
 
-    internal void Play()
+    internal void Play(Mode mode)
     {
         if (m_AudioData == null)
         {
@@ -177,7 +187,7 @@ public class SSAudioPlayer : MonoBehaviour
         }
         else
         {
-            m_AudioData.Play();
+            m_AudioData.Play(mode);
         }
     }
 
