@@ -76,7 +76,7 @@ public class SSAudioPlayer : MonoBehaviour
                 AudioClip clip = GetAudioClip();
                 if (clip != null)
                 {
-                    audioSource.loop = mode == Mode.Once ? false : true;
+                    audioSource.loop = mode == Mode.Loop ? true : false;
                     audioSource.clip = clip;
                     if (audioSource.isPlaying == true)
                     {
