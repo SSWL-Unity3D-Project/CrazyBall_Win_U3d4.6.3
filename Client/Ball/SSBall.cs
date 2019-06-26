@@ -156,6 +156,11 @@ public class SSBall : MonoBehaviour
 
     void handleBadBounce()
     {
+        if (rigidbody.isKinematic == true)
+        {
+            return;
+        }
+
         Vector3 vel = rigidbody.velocity.normalized;
         float angleBounce = Random.Range(m_BallData.minBounceAngle, m_BallData.maxBounceAngle);
         //SSDebug.Log("handleBadBounce -> vel == " + vel);

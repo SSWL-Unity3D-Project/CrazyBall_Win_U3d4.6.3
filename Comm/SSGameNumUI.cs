@@ -28,6 +28,7 @@ public class SSGameNumUI : SSGameMono
     /// 修改UI坐标数据信息.
     /// </summary>
     public FixedUiPosData m_FixedUiPosDt;
+
     [System.Serializable]
     public class NumImageData
     {
@@ -78,33 +79,71 @@ public class SSGameNumUI : SSGameMono
         }
     }
     public NumImageData m_NumImageData;
+
+    [System.Serializable]
+    public class NumData
+    {
+        /// <summary>
+        /// 数字
+        /// </summary>
+        public int num = 0;
+        /// <summary>
+        /// 数字对应的图片
+        /// </summary>
+        public Sprite sprite;
+    }
+
+    [System.Serializable]
+    public class NumUIData
+    {
+        /// <summary>
+        /// 数字UI
+        /// </summary>
+        public Image m_NumImage;
+        /// <summary>
+        /// 数字信息组件.
+        /// </summary>
+        public NumData[] m_NumDataArray;
+
+        public void ShowNum(int num)
+        {
+            if (m_NumImage == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < m_NumDataArray.Length; i++)
+            {
+                if (m_NumDataArray[i] != null
+                    && m_NumDataArray[i].num == num
+                    && m_NumDataArray[i].sprite != null)
+                {
+                    m_NumImage.sprite = m_NumDataArray[i].sprite;
+                    break;
+                }
+            }
+        }
+    }
+    public NumUIData m_NumUIData;
     /// <summary>
     /// 是否隐藏高位数字的0.
     /// </summary>
     public bool IsHiddenGaoWeiZero = true;
-    bool IsInit = false;
-    /// <summary>
-    /// 初始化.
-    /// </summary>
-    void Init()
-    {
-        if (IsInit == true)
-        {
-            return;
-        }
-        IsInit = true;
-    }
 
     /// <summary>
     /// 显示UI数量信息.
     /// </summary>
     internal void ShowNumUI(int num)
     {
-        if (IsInit == false)
-        {
-            Init();
-        }
+        HandleNumImageData(num);
+        HandleNumUIData(num);
+    }
 
+    /// <summary>
+    /// 处理数字图集界面
+    /// </summary>
+    void HandleNumImageData(int num)
+    {
         if (num < 0)
         {
             return;
@@ -131,7 +170,7 @@ public class SSGameNumUI : SSGameMono
                 }
             }
         }
-        
+
         int max = m_NumImageData.m_NumUIArray.Length;
         int numVal = num;
         int valTmp = 0;
@@ -151,6 +190,22 @@ public class SSGameNumUI : SSGameMono
                 m_NumImageData.ShowNum(i, valTmp);
                 numVal -= valTmp * powVal;
             }
+        }
+    }
+
+    /// <summary>
+    /// 处理数字UI信息
+    /// </summary>
+    void HandleNumUIData(int num)
+    {
+        if (num < 0)
+        {
+            return;
+        }
+
+        if (m_NumUIData != null)
+        {
+            m_NumUIData.ShowNum(num);
         }
     }
 
