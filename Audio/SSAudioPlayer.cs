@@ -36,6 +36,7 @@ public class SSAudioPlayer : MonoBehaviour
                     audioSource.loop = false;
                 }
                 audioSource.playOnAwake = false;
+                audioSource.Stop();
                 this.audioSource = audioSource;
             }
         }
@@ -212,7 +213,7 @@ public class SSAudioPlayer : MonoBehaviour
     //{
     //    if (Input.GetKeyUp(KeyCode.P))
     //    {
-    //        Play();
+    //        Play(Mode.Once);
     //    }
 
     //    if (Input.GetKeyUp(KeyCode.L))
