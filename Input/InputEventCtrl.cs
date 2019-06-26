@@ -178,10 +178,10 @@ public class InputEventCtrl : MonoBehaviour
 
     class PlayerDirData
     {
-        internal float[] PlayerFXTmp = new float[2];
+        internal float[] PlayerFXTmp = new float[SSGlobalData.MAX_PLAYER];
         internal float PlayerFX;
     }
-    PlayerDirData[] m_PlayerDirData = new PlayerDirData[2];
+    PlayerDirData[] m_PlayerDirData = new PlayerDirData[SSGlobalData.MAX_PLAYER];
 
     void InitPlayerDirData()
     {
