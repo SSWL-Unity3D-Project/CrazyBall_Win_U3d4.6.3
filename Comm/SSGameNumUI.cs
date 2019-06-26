@@ -112,6 +112,11 @@ public class SSGameNumUI : SSGameMono
                 return;
             }
 
+            if (m_NumDataArray.Length <= 0)
+            {
+                return;
+            }
+
             for (int i = 0; i < m_NumDataArray.Length; i++)
             {
                 if (m_NumDataArray[i] != null
