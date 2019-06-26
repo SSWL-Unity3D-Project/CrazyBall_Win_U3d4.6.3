@@ -70,13 +70,17 @@ public class SSAudioPlayer : MonoBehaviour
         
         internal void Play(Mode mode)
         {
-            if (audioSource != null && audioSource.isPlaying == false)
+            if (audioSource != null)
             {
                 AudioClip clip = GetAudioClip();
                 if (clip != null)
                 {
                     audioSource.loop = mode == Mode.Once ? false : true;
                     audioSource.clip = clip;
+                    if (audioSource.isPlaying == true)
+                    {
+                        audioSource.Stop();
+                    }
                     audioSource.Play();
                 }
             }
@@ -174,16 +178,14 @@ public class SSAudioPlayer : MonoBehaviour
             return;
         }
 
-        if (IsPlay == true)
-        {
-            return;
-        }
-        IsPlay = true;
-
         if (m_AudioData.GetIsStartCheckPlayNextAudioClip() == true)
         {
-            //数组长度大于1时循环播放clip数组的声音
-            StartCoroutine(m_AudioData.CheckPlayNextAudioClip());
+            if (IsPlay == false)
+            {
+                IsPlay = true;
+                //数组长度大于1时循环播放clip数组的声音
+                StartCoroutine(m_AudioData.CheckPlayNextAudioClip());
+            }
         }
         else
         {
@@ -199,11 +201,6 @@ public class SSAudioPlayer : MonoBehaviour
         }
 
         if (m_AudioData.GetIsCanPlay() == false)
-        {
-            return;
-        }
-
-        if (IsPlay == false)
         {
             return;
         }
