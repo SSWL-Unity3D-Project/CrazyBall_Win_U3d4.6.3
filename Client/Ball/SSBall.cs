@@ -32,12 +32,15 @@ public class SSBall : MonoBehaviour
             }
         }
         /// <summary>
+        /// 碰上范围阻挡几次之后对曲棍球进行折射
+        /// </summary>
+        public int BadBounceMax = 2;
+        /// <summary>
         /// 曲棍球碰到范围阻挡后的离去角度控制信息
         /// </summary>
-        SSGlobalData.MinMaxDataFloat bounceAngle = new SSGlobalData.MinMaxDataFloat(25f, 45f);
+        public SSGlobalData.MinMaxDataFloat bounceAngle = new SSGlobalData.MinMaxDataFloat(25f, 45f);
         internal int badBounceLayer = 10;
         internal int m_badBounceCount = 0;
-        internal int timesBeforeCorrectingBadBounce = 2;
         /// <summary>
         /// 是否运动
         /// </summary>
@@ -130,7 +133,7 @@ public class SSBall : MonoBehaviour
         if (col.gameObject.layer == m_BallData.badBounceLayer)
         {
             m_BallData.m_badBounceCount++;
-            if (m_BallData.m_badBounceCount > m_BallData.timesBeforeCorrectingBadBounce)
+            if (m_BallData.m_badBounceCount > m_BallData.BadBounceMax)
             {
                 //SSDebug.Log("handle bad bounce!");
                 handleBadBounce();
