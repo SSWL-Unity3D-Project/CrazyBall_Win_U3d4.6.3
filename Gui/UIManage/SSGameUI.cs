@@ -147,7 +147,11 @@ public class SSGameUI : SSGameMono
         {
             return;
         }
-        m_GameUIData.SetIsClickStartBt(indexPlayer, true);
+
+        if (IsDisplayGameResult == false)
+        {
+            m_GameUIData.SetIsClickStartBt(indexPlayer, true);
+        }
     }
 
     bool IsCreateStartGameGo = false;
@@ -441,6 +445,7 @@ public class SSGameUI : SSGameMono
     /// </summary>
     internal void ClearGameResult()
     {
+        IsDisplayGameResult = false;
         if (m_GameResult != null && m_GameResult.Count > 0)
         {
             GameObject[] objArray = m_GameResult.ToArray();
@@ -455,11 +460,18 @@ public class SSGameUI : SSGameMono
         }
     }
 
+    bool IsDisplayGameResult = false;
     /// <summary>
     /// 展示玩家游戏比赛结果
     /// </summary>
     internal void ShowPlayerGameRaceResult()
     {
+        if (IsDisplayGameResult == true)
+        {
+            return;
+        }
+        IsDisplayGameResult = true;
+
         int fenShuP1 = SSGlobalData.GetInstance().GetPlayerFenShu(SSGlobalData.PlayerEnum.PlayerOne);
         int fenShuP2 = SSGlobalData.GetInstance().GetPlayerFenShu(SSGlobalData.PlayerEnum.PlayerTwo);
         SSGlobalData.GameRaceResult resultP1 = SSGlobalData.GameRaceResult.PingJu;

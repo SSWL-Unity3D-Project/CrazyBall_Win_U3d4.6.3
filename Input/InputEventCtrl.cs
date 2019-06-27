@@ -252,22 +252,22 @@ public class InputEventCtrl : MonoBehaviour
 
         //默认玩家2在屏幕右侧
         //player_2.
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             OnClickFangXiangLBt(SSGlobalData.PlayerEnum.PlayerTwo, ButtonState.DOWN);
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.DownArrow))
         {
             OnClickFangXiangLBt(SSGlobalData.PlayerEnum.PlayerTwo, ButtonState.UP);
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             OnClickFangXiangRBt(SSGlobalData.PlayerEnum.PlayerTwo, ButtonState.DOWN);
         }
 
-        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.DownArrow))
+        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.UpArrow))
         {
             OnClickFangXiangRBt(SSGlobalData.PlayerEnum.PlayerTwo, ButtonState.UP);
         }

@@ -19,7 +19,7 @@ public class SSDengDaiDuiFang : SSGameMono
         GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
         if (gmDataPrefab != null)
         {
-            //SSDebug.Log("CreateDengDaiDuiFangUI......................................................");
+            //SSDebug.Log("CreateDengDaiDuiFangUI.................. indexPlayer == " + indexPlayer);
             m_DengDaiObj = (GameObject)Instantiate(gmDataPrefab, par);
         }
         else

@@ -286,7 +286,7 @@ public class SSGameScene : MonoBehaviour
     internal void OnGameStart()
     {
         //开始创建道具
-        StartCreateDaoJu();
+        //StartCreateDaoJu();
     }
 
     /// <summary>

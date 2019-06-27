@@ -43,50 +43,11 @@ public class SSPlayerPaddle : MonoBehaviour
     
     void LineUpdate()
     {
-        //Vector3 pos = transform.position;
-        //float posZ = pos.z;
-        //if (posZ < m_PaddleData.minPos)
-        //{
-        //    pos.z = m_PaddleData.minPos;
-        //}
-        //if (posZ > m_PaddleData.maxPos)
-        //{
-        //    pos.z = m_PaddleData.maxPos;
-        //}
-        //transform.position = pos;
-
         //if the horizontal button is pressed move our paddle using velocity, if not set its movement to 0.
         float input = GetInput();
+        bool isMovePaddle = GetIsMovePaddle(input);
         if (input != 0f)
         {
-            Vector3 pos = transform.position;
-            float posZ = pos.z;
-            bool isMovePaddle = true;
-            if (input > 0f)
-            {
-                if (posZ >= m_PaddleData.maxPos)
-                {
-                    if (posZ > m_PaddleData.maxPos)
-                    {
-                        pos.z = m_PaddleData.maxPos;
-                        transform.position = pos;
-                    }
-                    isMovePaddle = false;
-                }
-            }
-            else if (input < 0f)
-            {
-                if (posZ <= m_PaddleData.minPos)
-                {
-                    if (posZ < m_PaddleData.minPos)
-                    {
-                        pos.z = m_PaddleData.minPos;
-                        transform.position = pos;
-                    }
-                    isMovePaddle = false;
-                }
-            }
-
             if (isMovePaddle == true)
             {
                 rigidbody.velocity = new Vector3(0f, 0f, input * m_PaddleData.moveSpeed);
@@ -96,6 +57,59 @@ public class SSPlayerPaddle : MonoBehaviour
         {
             rigidbody.velocity = Vector3.zero;
         }
+    }
+
+    bool GetIsMovePaddle(float input)
+    {
+        bool isMovePaddle = true;
+        Vector3 pos = transform.position;
+        float posZ = pos.z;
+        if (input > 0f)
+        {
+            if (posZ >= m_PaddleData.maxPos)
+            {
+                if (posZ > m_PaddleData.maxPos)
+                {
+                    pos.z = m_PaddleData.maxPos;
+                    transform.position = pos;
+                }
+                isMovePaddle = false;
+            }
+        }
+        else if (input < 0f)
+        {
+            if (posZ <= m_PaddleData.minPos)
+            {
+                if (posZ < m_PaddleData.minPos)
+                {
+                    pos.z = m_PaddleData.minPos;
+                    transform.position = pos;
+                }
+                isMovePaddle = false;
+            }
+        }
+        else
+        {
+            if (posZ >= m_PaddleData.maxPos)
+            {
+                if (posZ > m_PaddleData.maxPos)
+                {
+                    pos.z = m_PaddleData.maxPos;
+                    transform.position = pos;
+                }
+                isMovePaddle = false;
+            }
+            else if (posZ <= m_PaddleData.minPos)
+            {
+                if (posZ < m_PaddleData.minPos)
+                {
+                    pos.z = m_PaddleData.minPos;
+                    transform.position = pos;
+                }
+                isMovePaddle = false;
+            }
+        }
+        return isMovePaddle;
     }
 
     float GetInput()
