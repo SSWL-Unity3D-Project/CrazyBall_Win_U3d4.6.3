@@ -106,7 +106,7 @@ public class SSBall : MonoBehaviour
         rigidbody.velocity = forward * m_BallData.ballSpeeding;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (m_BallData.isMove == false)
         {

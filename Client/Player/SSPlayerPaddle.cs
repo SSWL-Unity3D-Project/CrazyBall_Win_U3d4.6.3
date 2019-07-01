@@ -36,7 +36,7 @@ public class SSPlayerPaddle : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         LineUpdate();
     }
