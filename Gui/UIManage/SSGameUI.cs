@@ -502,7 +502,7 @@ public class SSGameUI : SSGameMono
 
     IEnumerator DelayRemoveGameResult()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
         //删除游戏比赛结果界面
         ClearGameResult();
 
