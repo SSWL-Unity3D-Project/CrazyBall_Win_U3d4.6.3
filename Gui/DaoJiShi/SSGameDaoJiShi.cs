@@ -231,6 +231,9 @@ public class SSGameDaoJiShi : MonoBehaviour
 
             //展示玩家获胜/失败/平局UI界面
             SSGameMange.GetInstance().m_SSGameUI.ShowPlayerGameRaceResult();
+            
+            //关闭镜头跟踪
+            SSGameMange.GetInstance().m_SSGameScene.SetIsMoveCamera(false);
         }
     }
 }

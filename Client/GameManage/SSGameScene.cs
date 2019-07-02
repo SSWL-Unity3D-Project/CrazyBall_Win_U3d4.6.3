@@ -6,6 +6,29 @@ public class SSGameScene : MonoBehaviour
     [System.Serializable]
     public class SceneData
     {
+        /// <summary>
+        /// 摄像机运动控制脚本
+        /// </summary>
+        internal SSCameraMove cameraMove;
+        internal void SetAimTarget(Transform aimTarget)
+        {
+            if (cameraMove != null)
+            {
+                cameraMove.SetAimTarget(aimTarget);
+            }
+        }
+
+        internal void SetIsMoveCamera(bool isMove)
+        {
+            if (cameraMove != null)
+            {
+                cameraMove.SetIsMoveCamera(isMove);
+            }
+        }
+
+        /// <summary>
+        /// 声音播放器
+        /// </summary>
         public SSAudioPlayer audioPlayer;
         internal void PlayAudio()
         {
@@ -67,7 +90,32 @@ public class SSGameScene : MonoBehaviour
         CreateGameBall();
         PlayAudio();
     }
+    
+    /// <summary>
+    /// 设置镜头跟踪的曲棍球
+    /// </summary>
+    internal void SetCameraAimTarget(Transform aimTarget)
+    {
+        if (m_SceneData != null)
+        {
+            m_SceneData.SetAimTarget(aimTarget);
+        }
+    }
 
+    /// <summary>
+    /// 设置是否移动镜头
+    /// </summary>
+    internal void SetIsMoveCamera(bool isMove)
+    {
+        if (m_SceneData != null)
+        {
+            m_SceneData.SetIsMoveCamera(isMove);
+        }
+    }
+
+    /// <summary>
+    /// 播放音效
+    /// </summary>
     void PlayAudio()
     {
         if (m_SceneData != null)
@@ -158,6 +206,7 @@ public class SSGameScene : MonoBehaviour
                 m_SSBall = com;
                 com.Init();
             }
+            SetCameraAimTarget(obj.transform);
         }
         else
         {
@@ -241,7 +290,32 @@ public class SSGameScene : MonoBehaviour
             m_SSGameNanDu.OnGameOver();
         }
     }
+    
+    /// <summary>
+    /// 获取曲棍球的运动速度
+    /// </summary>
+    internal void UpdateBallSpeed()
+    {
+        if (m_SSGameNanDu != null)
+        {
+            m_SSGameNanDu.UpdateBallSpeed();
+        }
+    }
 
+    /// <summary>
+    /// 重置曲棍球的速度
+    /// </summary>
+    internal void ResetBallSpeed()
+    {
+        if (m_SSGameNanDu != null)
+        {
+            m_SSGameNanDu.ResetBallSpeed();
+        }
+    }
+
+    /// <summary>
+    /// 设置游戏难度控制数据信息
+    /// </summary>
     internal void SetGameNanDu(float ballSpeed, float paddleSpeed)
     {
         //SSDebug.Log("SetGameNanDu -> ballSpeed ======= " + ballSpeed + ", paddleSpeed ======= " + paddleSpeed);

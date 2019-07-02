@@ -132,12 +132,12 @@ public class SSBall : MonoBehaviour
         //SSDebug.Log("col == " + col.gameObject.layer);
         if (col.gameObject.layer == m_BallData.badBounceLayer)
         {
-            m_BallData.m_badBounceCount++;
-            if (m_BallData.m_badBounceCount > m_BallData.BadBounceMax)
-            {
-                //SSDebug.Log("handle bad bounce!");
-                handleBadBounce();
-            }
+            //m_BallData.m_badBounceCount++;
+            //if (m_BallData.m_badBounceCount > m_BallData.BadBounceMax)
+            //{
+            //    //SSDebug.Log("handle bad bounce!");
+            //    handleBadBounce();
+            //}
             m_BallData.PlayAudio();
         }
         else
@@ -150,6 +150,11 @@ public class SSBall : MonoBehaviour
         {
             m_BallData.PlayAudio();
             SetBallPlayerIndex(paddle.IndexPlayer);
+            if (SSGameMange.GetInstance() != null && SSGameMange.GetInstance().m_SSGameScene != null)
+            {
+                SSGameMange.GetInstance().m_SSGameScene.UpdateBallSpeed();
+            }
+            //handleHitPaddle();
         }
     }
 
@@ -203,5 +208,16 @@ public class SSBall : MonoBehaviour
                 rigidbody.velocity = Quaternion.AngleAxis(-angleBounce, Vector3.up) * rigidbody.velocity;
             }
         }
+    }
+
+    void handleHitPaddle()
+    {
+        if (rigidbody.isKinematic == true)
+        {
+            return;
+        }
+
+        Vector3 vel = rigidbody.velocity.normalized;
+        SSDebug.Log("handleHitPaddle -> vel == " + vel);
     }
 }

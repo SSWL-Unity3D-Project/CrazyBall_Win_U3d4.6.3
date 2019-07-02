@@ -3,6 +3,22 @@ using UnityEngine;
 
 public class SSGameNanDu : MonoBehaviour
 {
+    public enum NanDuEnum
+    {
+        /// <summary>
+        /// 阶段控制
+        /// </summary>
+        JieDuan = 0,
+        /// <summary>
+        /// 球拍控制
+        /// </summary>
+        Paddle = 1,
+    }
+    /// <summary>
+    /// 游戏难度控制
+    /// </summary>
+    internal NanDuEnum m_NanDuEnum = NanDuEnum.Paddle;
+
     /// <summary>
     /// 游戏难度数据
     /// </summary>
@@ -34,6 +50,94 @@ public class SSGameNanDu : MonoBehaviour
         }
     }
     public NanDuData[] m_NanDuDtArray = new NanDuData[3];
+
+    [System.Serializable]
+    public class NanDuPaddleData
+    {
+        //球速度变化：每次发球有固定初速度（可调），挡板与球接触一次加一次速度（可调），当球速到达一定值时将不再加速（可调）。
+        /// <summary>
+        /// 球拍速度
+        /// </summary>
+        public float qiuPaiSpeed = 60f;
+        /// <summary>
+        /// 挡板与曲棍球接触一次,曲棍球的速度增加一次
+        /// </summary>
+        public float addQiuPaiSpeed = 30f;
+        /// <summary>
+        /// 球拍的最大速度
+        /// </summary>
+        public float maxQiuPaiSpeed = 120f;
+        /// <summary>
+        /// 球拍的当前速度
+        /// </summary>
+        float speedQiuPaiCur = 0f;
+        /// <summary>
+        /// 初始发球速度
+        /// </summary>
+        public float ballSpeed = 90f;
+        /// <summary>
+        /// 挡板与曲棍球接触一次,曲棍球的速度增加一次
+        /// </summary>
+        public float addBallSpeed = 30f;
+        /// <summary>
+        /// 曲棍球的最大速度
+        /// </summary>
+        public float maxBallSpeed = 120f;
+        /// <summary>
+        /// 曲棍球的当前速度
+        /// </summary>
+        float speedBallCur = 0f;
+        internal void UpdateBallSpeed()
+        {
+            if (speedBallCur == 0f)
+            {
+                speedBallCur = ballSpeed;
+            }
+            else
+            {
+                if (speedBallCur < maxBallSpeed)
+                {
+                    speedBallCur += addBallSpeed;
+                    if (speedBallCur > maxBallSpeed)
+                    {
+                        speedBallCur = maxBallSpeed;
+                    }
+                }
+            }
+
+            if (speedQiuPaiCur == 0f)
+            {
+                speedQiuPaiCur = qiuPaiSpeed;
+            }
+            else
+            {
+                if (speedQiuPaiCur < maxQiuPaiSpeed)
+                {
+                    speedQiuPaiCur += addQiuPaiSpeed;
+                    if (speedQiuPaiCur > maxQiuPaiSpeed)
+                    {
+                        speedQiuPaiCur = maxQiuPaiSpeed;
+                    }
+                }
+            }
+
+            if (SSGameMange.GetInstance() != null
+                && SSGameMange.GetInstance().m_SSGameScene != null)
+            {
+                SSGameMange.GetInstance().m_SSGameScene.SetGameNanDu(speedBallCur, speedQiuPaiCur);
+            }
+        }
+
+        internal void Reset()
+        {
+            speedBallCur = 0f;
+            speedQiuPaiCur = 0f;
+        }
+    }
+    /// <summary>
+    /// 通过球拍每接触一次曲棍球时增加球速来控制难度的数据
+    /// </summary>
+    public NanDuPaddleData m_NanDuPaddleData;
     /// <summary>
     /// 游戏难度阶段索引
     /// </summary>
@@ -70,6 +174,11 @@ public class SSGameNanDu : MonoBehaviour
     bool IsLoopCheck = false;
     internal void StartLoopCheckNextGameNanDu()
     {
+        if (m_NanDuEnum != NanDuEnum.JieDuan)
+        {
+            return;
+        }
+
         if (IsLoopCheck == true)
         {
             return;
@@ -137,9 +246,46 @@ public class SSGameNanDu : MonoBehaviour
     /// </summary>
     internal void OnGameOver()
     {
-        if (IsLoopCheck == true)
+        switch(m_NanDuEnum)
         {
-            ResetInfo();
+            case NanDuEnum.JieDuan:
+                {
+                    if (IsLoopCheck == true)
+                    {
+                        ResetInfo();
+                    }
+                    break;
+                }
+            case NanDuEnum.Paddle:
+                {
+                    if (m_NanDuPaddleData != null)
+                    {
+                        m_NanDuPaddleData.Reset();
+                    }
+                    break;
+                }
+        }
+    }
+
+    /// <summary>
+    /// 获取曲棍球的运动速度
+    /// </summary>
+    internal void UpdateBallSpeed()
+    {
+        if (m_NanDuPaddleData != null)
+        {
+            m_NanDuPaddleData.UpdateBallSpeed();
+        }
+    }
+
+    /// <summary>
+    /// 重置曲棍球的速度
+    /// </summary>
+    internal void ResetBallSpeed()
+    {
+        if (m_NanDuPaddleData != null)
+        {
+            m_NanDuPaddleData.Reset();
         }
     }
 }

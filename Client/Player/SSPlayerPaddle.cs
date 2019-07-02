@@ -182,10 +182,15 @@ public class SSPlayerPaddle : MonoBehaviour
         {
             return;
         }
+        
+        SSGameMange.GetInstance().m_SSGameScene.ResetBallSpeed();
+        SSGameMange.GetInstance().m_SSGameScene.UpdateBallSpeed();
 
         m_SSBall.Fire(transform.forward);
         m_SSBall = null;
 
+        //开启镜头跟踪
+        SSGameMange.GetInstance().m_SSGameScene.SetIsMoveCamera(true);
         //创建游戏倒计时界面
         SSGameMange.GetInstance().m_SSGameUI.CreateGameDaoJiShi();
         //触发玩家发球事件

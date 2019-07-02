@@ -15,7 +15,9 @@ public class SSOutOfBounds : MonoBehaviour
             return;
         }
 
-        if (SSGameMange.GetInstance() == null || SSGameMange.GetInstance().m_SSGameUI == null)
+        if (SSGameMange.GetInstance() == null
+            || SSGameMange.GetInstance().m_SSGameScene == null
+            || SSGameMange.GetInstance().m_SSGameUI == null)
         {
             return;
         }
@@ -50,5 +52,8 @@ public class SSOutOfBounds : MonoBehaviour
             //创建加分UI界面
             SSGameMange.GetInstance().m_SSGameUI.CreateJiaFenUI(indexJiaFenPlayer);
         }
+        
+        //关闭镜头跟踪
+        SSGameMange.GetInstance().m_SSGameScene.SetIsMoveCamera(false);
     }
 }
