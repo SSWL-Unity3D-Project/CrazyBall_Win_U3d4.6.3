@@ -52,6 +52,10 @@ public class SSPlayerPaddle : MonoBehaviour
             {
                 rigidbody.velocity = new Vector3(0f, 0f, input * m_PaddleData.moveSpeed);
             }
+            else
+            {
+                rigidbody.velocity = Vector3.zero;
+            }
         }
         else
         {
