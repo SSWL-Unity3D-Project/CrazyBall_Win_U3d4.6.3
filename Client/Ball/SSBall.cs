@@ -132,6 +132,13 @@ public class SSBall : MonoBehaviour
         //SSDebug.Log("col == " + col.gameObject.layer);
         if (col.gameObject.layer == m_BallData.badBounceLayer)
         {
+            //曲棍球碰上围挡
+            SSWeiDangMesh weiDangMesh = col.gameObject.GetComponent<SSWeiDangMesh>();
+            if (weiDangMesh != null)
+            {
+                weiDangMesh.PlayWeiDangAni();
+            }
+
             //m_BallData.m_badBounceCount++;
             //if (m_BallData.m_badBounceCount > m_BallData.BadBounceMax)
             //{

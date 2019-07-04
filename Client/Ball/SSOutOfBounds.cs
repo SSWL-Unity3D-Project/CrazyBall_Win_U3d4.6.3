@@ -3,6 +3,7 @@
 public class SSOutOfBounds : MonoBehaviour
 {
     public SSGlobalData.PlayerEnum IndexPlayer = SSGlobalData.PlayerEnum.Null;
+    public SSAudioPlayer m_AudioPlayer;
     void OnTriggerEnter(Collider col)
     {
         ballOut(col);
@@ -52,8 +53,19 @@ public class SSOutOfBounds : MonoBehaviour
             //创建加分UI界面
             SSGameMange.GetInstance().m_SSGameUI.CreateJiaFenUI(indexJiaFenPlayer);
         }
-        
+
+        //播放出界音效
+        PlayAudio();
+
         //关闭镜头跟踪
         SSGameMange.GetInstance().m_SSGameScene.SetIsMoveCamera(false);
+    }
+
+    void PlayAudio()
+    {
+        if (m_AudioPlayer != null)
+        {
+            m_AudioPlayer.Play(SSAudioPlayer.Mode.Once);
+        }
     }
 }
