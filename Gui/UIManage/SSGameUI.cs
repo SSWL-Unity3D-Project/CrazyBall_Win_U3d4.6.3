@@ -119,6 +119,7 @@ public class SSGameUI : SSGameMono
         {
             m_GameUIData.Init(this);
         }
+        CreateGameShuoMing();
         InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
         InputEventCtrl.GetInstance().ClickStartBtTwoEvent += ClickStartBtTwoEvent;
     }
@@ -146,6 +147,11 @@ public class SSGameUI : SSGameMono
         if (val == InputEventCtrl.ButtonState.UP)
         {
             return;
+        }
+
+        if (m_GameShuoMing != null)
+        {
+            RemoveGameShuoMing();
         }
 
         if (IsDisplayGameResult == false)
@@ -510,6 +516,10 @@ public class SSGameUI : SSGameMono
         SSGameMange.GetInstance().m_SSGameUI.RemovePlayerFenShu();
         //重置数据信息
         SSGlobalData.GetInstance().ResetInfo();
+        Resources.UnloadUnusedAssets();
+
+        //创建游戏说明UI界面
+        CreateGameShuoMing();
     }
 
     /// <summary>
@@ -624,5 +634,44 @@ public class SSGameUI : SSGameMono
             SSDebug.LogWarning("CreateGamePingJuResult -> gmDataPrefab was null! prefabPath == " + prefabPath);
         }
         return obj;
+    }
+
+    /// <summary>
+    /// 游戏说明UI
+    /// </summary>
+    GameObject m_GameShuoMing = null;
+    /// <summary>
+    /// 创建游戏说明UI界面
+    /// </summary>
+    internal void CreateGameShuoMing()
+    {
+        if (m_GameShuoMing != null)
+        {
+            return;
+        }
+
+        string prefabPath = "GUI/GameShuoMing/GameShuoMing";
+        GameObject gmDataPrefab = (GameObject)Resources.Load(prefabPath);
+        if (gmDataPrefab != null)
+        {
+            //SSDebug.Log("CreateGameShuoMing......................................................");
+            m_GameShuoMing = (GameObject)Instantiate(gmDataPrefab, m_GameUIData.PanelCenterTr);
+        }
+        else
+        {
+            SSDebug.LogWarning("CreateGameShuoMing -> gmDataPrefab was null! prefabPath == " + prefabPath);
+        }
+    }
+
+    /// <summary>
+    /// 删除游戏说明UI界面
+    /// </summary>
+    void RemoveGameShuoMing()
+    {
+        if (m_GameShuoMing == null)
+        {
+            return;
+        }
+        Destroy(m_GameShuoMing);
     }
 }
